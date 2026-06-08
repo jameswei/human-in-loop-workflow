@@ -66,15 +66,13 @@ Phase 1 spec + taskboard   ← human + agents brainstorm together
 
 ## Getting Started
 
-### For CodeWhale users
+### For skill-aware LLM coding agents
 
-```bash
-codewhale skills install human-in-loop-workflow
-```
+If your agent supports skill files, install `SKILL.md` from this repo. The
+skill will bootstrap the protocol documents into your project's `docs/`
+directory automatically.
 
-The skill will fetch protocol documents into your project's `docs/` directory.
-
-### For other LLM coding agents (Claude Code, Cursor, Codex CLI, etc.)
+### For other LLM coding agents
 
 Clone or copy the protocol documents into your project:
 
@@ -106,10 +104,10 @@ customization step — everything else is ready to go.
 
 ## FAQ
 
-**Does this only work with CodeWhale?** No. The protocol is plain Markdown that
-any LLM coding agent (Claude Code, Cursor, Codex CLI, etc.) can read. The
-`SKILL.md` is a convenience for CodeWhale's skill system, but the workflow
-itself is tool-agnostic.
+**Does this only work with a specific tool?** No. The protocol is plain Markdown
+that any LLM coding agent can read. The `SKILL.md` is a convenience for agents
+that support skill files, but the workflow itself is tool-agnostic — agents can
+also read the protocol documents directly.
 
 **Do I need two different LLM models?** No. The two agents can be the same model
 running in separate sessions. What matters is that they are different
