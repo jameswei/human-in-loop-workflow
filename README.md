@@ -1,9 +1,9 @@
 # human-in-loop-workflow
 
-A human-in-loop, simplified enough, well-behaviored workflow for
-small-to-medium projects. It defines a dual-agent collaboration protocol where
-one agent implements and another reviews, with the human coordinator looped in
-at every review gate.
+A plain-text, human-in-the-loop workflow for small-to-medium software projects.
+It defines a dual-agent collaboration protocol where one agent implements,
+another reviews, and the human coordinator stays involved at review gates and
+phase boundaries.
 
 ## What This Is
 
@@ -16,8 +16,7 @@ just a protocol in plain text that any LLM coding agent can read and follow.
 Coding agents are powerful, but without explicit collaboration rules they
 wander, self-approve, expand scope, and leave inconsistent handoffs. This
 workflow gives agents a shared contract: roles, review gates, sign-off rules,
-and a live handoff surface (`CURRENT.md`) that keeps state visible between
-sessions.
+and a live handoff surface (`docs/CURRENT.md`) for active tasks.
 
 It was extracted from real use across 8 phases of [tiny-duo-infer][tdi], a
 dual-model inference engine built entirely through this pattern.
@@ -25,14 +24,20 @@ dual-model inference engine built entirely through this pattern.
 ## How It Works
 
 ```
-Phase 1 spec + taskboard   ← human + agents brainstorm together
+Bootstrap workflow docs    ← fresh repo or existing/forked project
+       │
+       ▼
+Planning discussion        ← human + agents brainstorm together
+       │
+       ▼
+Phase 1 spec + taskboard   ← human approves scope before implementation
        │
        ▼
 ┌──────────────────────┐
 │  Main Developer      │  implements task → writes handoff
 │  (agent session 1)   │  → sets status to "review"
 └──────┬───────────────┘
-       │  CURRENT.md (live state)
+       │  docs/CURRENT.md (live state)
        ▼
 ┌──────────────────────┐
 │  Reviewer            │  reviews code → writes findings
@@ -46,10 +51,13 @@ Phase 1 spec + taskboard   ← human + agents brainstorm together
 
 - **Phases**: work is organized into scoped phases, each with a spec (what) and
   a taskboard (tasks + status)
+- **Bootstrap Mode**: installs or adapts the workflow in a repo without
+  changing product code
+- **Planning Mode**: human and agents settle direction before any active phase
 - **Dual-agent**: Main Developer implements, Reviewer signs off
 - **No self-sign-off**: the agent who builds the thing cannot mark it done
-- **`CURRENT.md`**: the live handoff surface — current task, review findings,
-  test results, blockers
+- **`docs/CURRENT.md`**: the live handoff surface — current task, review
+  findings, test results, blockers
 - **Human-in-the-loop**: nothing ships without human awareness
 
 ## What's in the Repo
@@ -58,19 +66,22 @@ Phase 1 spec + taskboard   ← human + agents brainstorm together
 |------|------|----------|
 | `SKILL.md` | Bootstrap installer for agent skill systems | Agents |
 | `AGENTS.md` | Entry point, routes agents to the right docs | Agents |
-| `agent-guidelines.md` | Full collaboration protocol: roles, review gates, handoff format, conflict rules | Agents |
-| `CURRENT.md` | Live task state template | Agents |
-| `phase-spec-template.md` | Phase spec template with fill-in guidance | Human + agents |
-| `taskboard-template.md` | Taskboard template with status rules | Human + agents |
-| `phases/README.md` | Phase index template | Human + agents |
+| `docs/agent-guidelines.md` | Full collaboration protocol: lifecycle, roles, review gates, handoff format, conflict rules | Agents |
+| `docs/current-task-template.md` | Template for the live `docs/CURRENT.md` task state | Agents |
+| `docs/phase-spec-template.md` | Phase spec template with fill-in guidance | Human + agents |
+| `docs/taskboard-template.md` | Taskboard template with status rules | Human + agents |
+| `docs/phases/README.md` | Phase index template | Human + agents |
 
 ## Getting Started
 
 ### For skill-aware LLM coding agents
 
-If your agent supports skill files, install `SKILL.md` from this repo. The
-skill will bootstrap the protocol documents into your project's `docs/`
-directory automatically.
+Install `SKILL.md` as an agent skill, then ask the agent:
+
+```text
+Use the human-in-loop-workflow skill to bootstrap this repository.
+Only install or adapt workflow docs. Do not change product code.
+```
 
 ### For other LLM coding agents
 
@@ -79,12 +90,17 @@ Clone or copy the protocol documents into your project:
 ```bash
 # Option A: clone the whole repo
 git clone https://github.com/jameswei/human-in-loop-workflow.git /tmp/hilw
-cp /tmp/hilw/{AGENTS.md,docs/*} your-project/
+cp /tmp/hilw/AGENTS.md your-project/
+cp -R /tmp/hilw/docs your-project/
 
 # Option B: fetch individual files
 curl -o AGENTS.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/AGENTS.md
-curl -o docs/agent-guidelines.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/agent-guidelines.md
-# ... repeat for each file
+mkdir -p docs/phases
+curl -o docs/agent-guidelines.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/agent-guidelines.md
+curl -o docs/current-task-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/current-task-template.md
+curl -o docs/phase-spec-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/phase-spec-template.md
+curl -o docs/taskboard-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/taskboard-template.md
+curl -o docs/phases/README.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/phases/README.md
 ```
 
 Any agent that reads project files will pick up `AGENTS.md` and follow the
@@ -92,15 +108,23 @@ protocol.
 
 ### For web-based LLMs (ChatGPT, Claude, etc.)
 
-Paste `AGENTS.md` and `agent-guidelines.md` at the start of your session as
-context. This is less automatic but still works.
+Paste `AGENTS.md` and `docs/agent-guidelines.md` at the start of your session
+as context. This is less automatic but still works.
 
-## Project Defaults
+## Bootstrap And Planning
 
-After copying the protocol documents, edit the **Project Defaults** section at
-the end of `docs/agent-guidelines.md` to match your project's conventions:
-language, framework, testing tools, phase-1 constraints, etc. This is the only
-customization step — everything else is ready to go.
+Bootstrap works for empty repos and existing/forked projects. In both cases,
+the agent should install or adapt workflow docs, inspect local conventions,
+report conflicts, and stop. It should not change product code, choose a stack,
+or start implementation.
+
+After bootstrap, use Planning Mode with human and agent discussion to settle the
+project direction. Only then should an agent write a phase spec and taskboard,
+and only after human approval should implementation begin.
+
+The **Project Defaults** section at the end of `docs/agent-guidelines.md` starts
+unset by design. Fill it from existing project facts or confirmed planning
+decisions, not guesses.
 
 ## FAQ
 
