@@ -12,35 +12,31 @@ wander, self-approve, expand scope, and leave inconsistent handoffs. This
 workflow gives agents a shared contract: roles, review gates, sign-off rules,
 and a live handoff surface (`docs/CURRENT.md`) for active tasks.
 
-It was extracted from real use across 8 phases of [tiny-duo-infer][tdi], a
-dual-model inference engine built entirely through this pattern.
-
 ## How It Works
 
 ```
-Bootstrap workflow docs    ← fresh repo or existing/forked project
+Bootstrap workflow         ← fresh repo or existing/forked project
        │
        ▼
-Planning discussion        ← human + agents brainstorm together
+Planning brainstorm        ← human + agents brainstorm together
        │
        ▼
-Phase 1 spec + taskboard   ← human approves scope before implementation
+Phase N spec + taskboard   ← human approves scope before implementation
        │
        ▼
 ┌──────────────────────┐
-│  Main Developer      │  implements task → writes handoff
-│  (agent session 1)   │  → sets status to "review"
+│  Main Developer      │   implements task → writes handoff → sets status to "review"
+│  (agent session 1)   │
 └──────┬───────────────┘
        │  docs/CURRENT.md (live state)
        ▼
 ┌──────────────────────┐
-│  Reviewer            │  reviews code → writes findings
-│  (agent session 2)   │  → signs off or requests fixes
+│  Reviewer            │   reviews code → writes findings → signs off or requests fixes
+│  (agent session 2)   │
 └──────┬───────────────┘
        │
        ▼
-   Human coordinator       looped in at every review gate
-                           and phase boundary
+   Human as coordinator    looped in at every review gate and phase boundary
 ```
 
 ## What's in the Repo
@@ -69,12 +65,12 @@ Either install from plugin marketplace:
 or simply fetch single skill file:
 
 ```bash
-mkdir -p ~/.claude/skills/human-in-loop-workflow
-curl -o ~/.claude/skills/human-in-loop-workflow/SKILL.md \
-  https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/SKILL.md
+mkdir -p ~/.claude/skills/human-in-loop-workflow && \
+  curl -o ~/.claude/skills/human-in-loop-workflow/SKILL.md \
+  https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/SKILL.md
 ```
 
-Then ask Claude (or invoke directly with `/human-in-loop-workflow:human-in-loop-workflow`):
+Then prompt like following:
 
 ```text
 Use the human-in-loop-workflow skill to bootstrap this repository.
@@ -84,10 +80,10 @@ Only install or adapt workflow docs. Do not change product code.
 ### For Codex
 
 ```text
-$skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree/v0.1.1
+$skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree/{tag}
 ```
 
-Then ask:
+Then prompt like following:
 
 ```text
 Use the human-in-loop-workflow skill to bootstrap this repository.
@@ -100,25 +96,16 @@ Copy the protocol docs into your project, then any agent that reads project
 files will pick up `AGENTS.md` and follow the protocol:
 
 ```bash
-curl -o AGENTS.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/AGENTS.md
+curl -o AGENTS.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/AGENTS.md
 mkdir -p docs/phases
-curl -o docs/agent-guidelines.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/agent-guidelines.md
-curl -o docs/current-task-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/current-task-template.md
-curl -o docs/phase-spec-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/phase-spec-template.md
-curl -o docs/taskboard-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/taskboard-template.md
-curl -o docs/phases/README.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/phases/README.md
+curl -o docs/agent-guidelines.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/docs/agent-guidelines.md
+curl -o docs/current-task-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/docs/current-task-template.md
+curl -o docs/phase-spec-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/docs/phase-spec-template.md
+curl -o docs/taskboard-template.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/docs/taskboard-template.md
+curl -o docs/phases/README.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/refs/tags/{tag}/docs/phases/README.md
 ```
 
-### For web-based LLMs (ChatGPT, Claude, etc.)
-
-Paste `AGENTS.md` and `docs/agent-guidelines.md` at the start of your session
-as context.
-
 ## FAQ
-
-**Does this only work with a specific tool?** No. The protocol is plain Markdown
-that any LLM coding agent can read. `SKILL.md` is a convenience for skill-aware
-agents, but the workflow is tool-agnostic.
 
 **Do I need two different LLM models?** No. The two agents can be the same model
 running in separate sessions. What matters is separate sessions — the Reviewer
@@ -134,5 +121,3 @@ one per role.
 anything with multiple phases and the risk of agents going off the rails — the
 overhead is about 30 minutes of initial setup and pays back in fewer reverted
 commits and clearer handoffs.
-
-[tdi]: https://github.com/jameswei/tiny-duo-infer
