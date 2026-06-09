@@ -1,3 +1,8 @@
+---
+name: human-in-loop-workflow
+description: Use when the user wants to bootstrap, install, or adapt a human-in-the-loop multi-agent workflow with AGENTS.md routing, phase specs, taskboards, implementation/review handoffs, and reviewer sign-off gates.
+---
+
 # Human-in-Loop Multi-Agent Workflow
 
 A reusable collaboration protocol for small-to-medium projects: dual-agent
