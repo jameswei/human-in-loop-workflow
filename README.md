@@ -59,11 +59,19 @@ Phase 1 spec + taskboard   ← human approves scope before implementation
 
 ### For Claude Code
 
-Install from the marketplace:
+Either install from plugin marketplace:
 
 ```text
 /plugin marketplace add jameswei/human-in-loop-workflow
 /plugin install human-in-loop-workflow@human-in-loop-workflow
+```
+
+or simply fetch single skill file:
+
+```bash
+mkdir -p ~/.claude/skills/human-in-loop-workflow
+curl -o ~/.claude/skills/human-in-loop-workflow/SKILL.md \
+  https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/SKILL.md
 ```
 
 Then ask Claude (or invoke directly with `/human-in-loop-workflow:human-in-loop-workflow`):
