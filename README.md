@@ -74,7 +74,33 @@ Phase 1 spec + taskboard   ← human approves scope before implementation
 
 ## Getting Started
 
-### For skill-aware LLM coding agents
+### For Codex
+
+Ask Codex to install the released skill:
+
+```text
+$skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree/v0.1.1
+```
+
+Then restart Codex if the skill does not appear immediately, and ask:
+
+```text
+Use the human-in-loop-workflow skill to bootstrap this repository.
+Only install or adapt workflow docs. Do not change product code.
+```
+
+If the installer needs a manual fallback because the skill lives at the
+repository root:
+
+```bash
+python ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo jameswei/human-in-loop-workflow \
+  --ref v0.1.1 \
+  --path . \
+  --name human-in-loop-workflow
+```
+
+### For other skill-aware LLM coding agents
 
 Install `SKILL.md` as an agent skill, then ask the agent:
 
