@@ -1,0 +1,12 @@
+{
+  "name": "human-in-loop-workflow",
+  "displayName": "Human-in-Loop Workflow",
+  "version": "0.1.1",
+  "description": "A plain-text, human-in-the-loop workflow protocol for multi-agent collaboration on software projects.",
+  "author": {
+    "name": "Jia Wei"
+  },
+  "repository": "https://github.com/jameswei/human-in-loop-workflow",
+  "license": "MIT",
+  "keywords": ["workflow", "multi-agent", "human-in-loop", "collaboration"]
+}

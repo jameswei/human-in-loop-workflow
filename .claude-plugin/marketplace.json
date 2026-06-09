@@ -1,0 +1,20 @@
+{
+  "name": "human-in-loop-workflow",
+  "owner": {
+    "name": "Jia Wei",
+    "email": "james.wei.pek@gmail.com"
+  },
+  "metadata": {
+    "description": "Human-in-the-loop multi-agent workflow protocol",
+    "version": "0.1.1"
+  },
+  "plugins": [
+    {
+      "name": "human-in-loop-workflow",
+      "description": "A plain-text, human-in-the-loop workflow protocol for multi-agent collaboration on software projects.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./"]
+    }
+  ]
+}

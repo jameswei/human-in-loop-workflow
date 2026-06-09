@@ -1,15 +1,9 @@
 # human-in-loop-workflow
 
 A plain-text, human-in-the-loop workflow for small-to-medium software projects.
-It defines a dual-agent collaboration protocol where one agent implements,
-another reviews, and the human coordinator stays involved at review gates and
-phase boundaries.
-
-## What This Is
-
-A set of Markdown documents that define **how** multiple LLM agents should
-collaborate on a project. It is not a tool, not a framework, not a dependency —
-just a protocol in plain text that any LLM coding agent can read and follow.
+One agent implements, another reviews, and the human coordinator stays involved
+at every review gate and phase boundary. No tools, no frameworks — just a
+protocol in Markdown that any LLM coding agent can read and follow.
 
 ## Why
 
@@ -49,17 +43,6 @@ Phase 1 spec + taskboard   ← human approves scope before implementation
                            and phase boundary
 ```
 
-- **Phases**: work is organized into scoped phases, each with a spec (what) and
-  a taskboard (tasks + status)
-- **Bootstrap Mode**: installs or adapts the workflow in a repo without
-  changing product code
-- **Planning Mode**: human and agents settle direction before any active phase
-- **Dual-agent**: Main Developer implements, Reviewer signs off
-- **No self-sign-off**: the agent who builds the thing cannot mark it done
-- **`docs/CURRENT.md`**: the live handoff surface — current task, review
-  findings, test results, blockers
-- **Human-in-the-loop**: nothing ships without human awareness
-
 ## What's in the Repo
 
 | File | Role | Audience |
@@ -74,35 +57,29 @@ Phase 1 spec + taskboard   ← human approves scope before implementation
 
 ## Getting Started
 
-### For Codex
+### For Claude Code
 
-Ask Codex to install the released skill:
+Install from the marketplace:
 
 ```text
-$skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree/v0.1.1
+/plugin marketplace add jameswei/human-in-loop-workflow
+/plugin install human-in-loop-workflow@human-in-loop-workflow
 ```
 
-Then restart Codex if the skill does not appear immediately, and ask:
+Then ask Claude (or invoke directly with `/human-in-loop-workflow:human-in-loop-workflow`):
 
 ```text
 Use the human-in-loop-workflow skill to bootstrap this repository.
 Only install or adapt workflow docs. Do not change product code.
 ```
 
-If the installer needs a manual fallback because the skill lives at the
-repository root:
+### For Codex
 
-```bash
-python ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo jameswei/human-in-loop-workflow \
-  --ref v0.1.1 \
-  --path . \
-  --name human-in-loop-workflow
+```text
+$skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree/v0.1.1
 ```
 
-### For other skill-aware LLM coding agents
-
-Install `SKILL.md` as an agent skill, then ask the agent:
+Then ask:
 
 ```text
 Use the human-in-loop-workflow skill to bootstrap this repository.
@@ -111,15 +88,10 @@ Only install or adapt workflow docs. Do not change product code.
 
 ### For other LLM coding agents
 
-Clone or copy the protocol documents into your project:
+Copy the protocol docs into your project, then any agent that reads project
+files will pick up `AGENTS.md` and follow the protocol:
 
 ```bash
-# Option A: clone the whole repo
-git clone https://github.com/jameswei/human-in-loop-workflow.git /tmp/hilw
-cp /tmp/hilw/AGENTS.md your-project/
-cp -R /tmp/hilw/docs your-project/
-
-# Option B: fetch individual files
 curl -o AGENTS.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/AGENTS.md
 mkdir -p docs/phases
 curl -o docs/agent-guidelines.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/agent-guidelines.md
@@ -129,49 +101,30 @@ curl -o docs/taskboard-template.md https://raw.githubusercontent.com/jameswei/hu
 curl -o docs/phases/README.md https://raw.githubusercontent.com/jameswei/human-in-loop-workflow/main/docs/phases/README.md
 ```
 
-Any agent that reads project files will pick up `AGENTS.md` and follow the
-protocol.
-
 ### For web-based LLMs (ChatGPT, Claude, etc.)
 
 Paste `AGENTS.md` and `docs/agent-guidelines.md` at the start of your session
-as context. This is less automatic but still works.
-
-## Bootstrap And Planning
-
-Bootstrap works for empty repos and existing/forked projects. In both cases,
-the agent should install or adapt workflow docs, inspect local conventions,
-report conflicts, and stop. It should not change product code, choose a stack,
-or start implementation.
-
-After bootstrap, use Planning Mode with human and agent discussion to settle the
-project direction. Only then should an agent write a phase spec and taskboard,
-and only after human approval should implementation begin.
-
-The **Project Defaults** section at the end of `docs/agent-guidelines.md` starts
-unset by design. Fill it from existing project facts or confirmed planning
-decisions, not guesses.
+as context.
 
 ## FAQ
 
 **Does this only work with a specific tool?** No. The protocol is plain Markdown
-that any LLM coding agent can read. The `SKILL.md` is a convenience for agents
-that support skill files, but the workflow itself is tool-agnostic — agents can
-also read the protocol documents directly.
+that any LLM coding agent can read. `SKILL.md` is a convenience for skill-aware
+agents, but the workflow is tool-agnostic.
 
 **Do I need two different LLM models?** No. The two agents can be the same model
-running in separate sessions. What matters is that they are different
-*sessions* — the Reviewer session must not have the same context/state as the
-Developer session, otherwise the review gate is meaningless.
+running in separate sessions. What matters is separate sessions — the Reviewer
+must not share context with the Developer, otherwise the review gate is
+meaningless.
 
 **Can I use more than two agents?** Yes. The protocol defines four roles (Main
-Developer, Architecture Reviewer, Code Reviewer, Test Verifier). For small
-projects, two agents splitting these roles is typical. For larger projects, you
-can assign dedicated agents per role.
+Developer, Architecture Reviewer, Code Reviewer, Test Verifier). Two agents
+splitting these roles is typical for small projects; larger projects can assign
+one per role.
 
 **Is this overkill for a solo project?** For a one-file script, yes. For
-anything with multiple phases, architecture decisions, and the risk of agents
-going off the rails — the overhead is about 30 minutes of initial setup and
-pays back in fewer reverted commits and clearer handoffs.
+anything with multiple phases and the risk of agents going off the rails — the
+overhead is about 30 minutes of initial setup and pays back in fewer reverted
+commits and clearer handoffs.
 
 [tdi]: https://github.com/jameswei/tiny-duo-infer
