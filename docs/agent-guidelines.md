@@ -9,12 +9,20 @@ Use this lifecycle for projects that adopt this workflow:
 1. Bootstrap Mode: install or adapt the workflow documents.
 2. Planning Mode: human and agents brainstorm goals, risks, stack, and phase
    shape.
-3. Phase Setup: create an approved phase spec and taskboard.
+3. Phase Setup: move a phase proposal through Draft, Signed Off, and Active.
 4. Implementation And Review: agents work task-by-task through the active
    taskboard.
 5. Phase Closeout: reviewer verifies completion criteria, tests, and docs.
 
-No implementation work should begin until a phase spec and taskboard are active,
+Phase states:
+
+- Draft: proposed scope, spec, or taskboard for discussion only.
+- Signed Off: the phase scope has been reviewed and accepted, but
+  implementation still waits for activation.
+- Active: `docs/phases/README.md` names the signed-off phase spec and
+  taskboard; agents may claim tasks and implement.
+
+No implementation work should begin until the phase is Signed Off and Active,
 except for Bootstrap Mode changes that only install or adapt this workflow.
 
 ## Bootstrap Mode

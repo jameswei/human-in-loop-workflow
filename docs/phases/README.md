@@ -4,15 +4,18 @@ This file routes agents to the current implementation contract.
 
 ## Current Phase
 
-<!-- Update this section when a new phase becomes active. -->
+<!-- Update this section only after a phase proposal is signed off and becomes
+     active. -->
 <!-- Example: -->
 <!--   **Phase 1**: `docs/phases/phase-1-xxx.md` -->
 <!--   Taskboard: `docs/phases/phase-1-taskboard.md` -->
 
 No phase is currently active.
 
-If no phase is active, agents should not claim or start implementation work
-until the next phase scope is confirmed and a phase spec/taskboard exists.
+Only a signed-off phase may be activated here. If no phase is active, agents
+should not claim or start implementation work from a draft or unsigned proposal.
+Implementation starts only after this section names the signed-off phase spec
+and taskboard.
 
 ## Agent Reading Rule
 
@@ -35,8 +38,8 @@ conflict, or when the active phase explicitly points to them.
 ## Later And Deferred Phases
 
 <!-- Add future or deferred phases here. These are directional only and
-     should not be treated as active implementation contracts until
-     dedicated specs and taskboards are created. -->
+     should not be treated as active implementation contracts until they are
+     signed off and activated in Current Phase. -->
 
 | Phase | Focus | Status |
 |---|---|---|

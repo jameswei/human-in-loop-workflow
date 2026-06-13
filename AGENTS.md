@@ -12,8 +12,9 @@ Before changing code, read the project docs in this order:
 If `docs/phases/README.md` names an active phase, also read that phase's spec
 and taskboard before changing code.
 
-If no phase is active, do not claim or start implementation work until the next
-phase scope is confirmed and a phase spec/taskboard exists.
+If no phase is active, do not claim or start implementation work from a draft
+proposal. Implementation starts only after the phase is signed off, activated in
+`docs/phases/README.md`, and has both a phase spec and taskboard.
 
 Use the active phase taskboard to claim tasks, update status, record blockers,
 and mark review/done state.
