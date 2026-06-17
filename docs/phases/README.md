@@ -6,6 +6,12 @@ This file routes agents to the current implementation contract.
 
 <!-- Update this section only after a phase proposal is signed off and becomes
      active. -->
+<!-- Activation checklist:
+     - the phase spec and taskboard are signed off
+     - this section names both active files
+     - stale Draft/candidate wording in the phase spec/taskboard is updated
+     - docs/CURRENT.md is created or reset only when a concrete task is
+       claimed or ready for review -->
 <!-- Example: -->
 <!--   **Phase 1**: `docs/phases/phase-1-xxx.md` -->
 <!--   Taskboard: `docs/phases/phase-1-taskboard.md` -->

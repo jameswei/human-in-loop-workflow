@@ -19,7 +19,14 @@ The active implementation contract is `docs/phases/{spec-filename}.md`.
 - Use `blocked` only with a concrete blocker in `Notes`.
 - Keep `Owner` as an agent/person name or `unassigned`.
 - Do not change task IDs after creation.
-- Update `Notes` with skipped tests, environment limits, or follow-up work.
+- Keep `Notes` concise. Detailed handoff notes, review findings, and full test
+  evidence belong in `docs/CURRENT.md`.
+- While a task is in `review` with requested fixes, use a short note such as:
+  `Reviewed by {agent} YYYY-MM-DD; changes_requested; see docs/CURRENT.md.`
+- When marking `done`, use a short sign-off line such as:
+  `Reviewed by {agent} YYYY-MM-DD; signed_off; tests: {short result}.`
+- Record skipped tests, environment limits, or follow-up work in `Notes` only
+  as short durable summaries.
 - Keep Acceptance criteria short; detailed requirements belong in the phase
   spec.
 
