@@ -13,8 +13,7 @@
       "name": "human-in-loop-workflow",
       "description": "A plain-text, human-in-the-loop workflow protocol for multi-agent collaboration on software projects.",
       "source": "./",
-      "strict": false,
-      "skills": ["./"]
+      "strict": false
     }
   ]
 }
