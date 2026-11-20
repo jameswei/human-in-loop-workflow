@@ -44,6 +44,7 @@ Phase N spec + taskboard   ← human approves scope before implementation
 | File | Role | Audience |
 |------|------|----------|
 | `SKILL.md` | Bootstrap installer for agent skill systems | Agents |
+| `agents/openai.yaml` | Explicit-only invocation policy for Codex | Codex |
 | `AGENTS.md` | Entry point, routes agents to the right docs | Agents |
 | `docs/agent-guidelines.md` | Full collaboration protocol: lifecycle, roles, review gates, handoff format, conflict rules | Agents |
 | `docs/current-task-template.md` | Template for the live `docs/CURRENT.md` task state | Agents |
@@ -79,6 +80,9 @@ Only install or adapt workflow docs. Do not change product code.
 
 ### For Codex
 
+The skill is available only when explicitly invoked. Use
+`$human-in-loop-workflow` or select it in the skill picker.
+
 ```text
 $skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree/{tag}
 ```
@@ -86,7 +90,7 @@ $skill-installer install https://github.com/jameswei/human-in-loop-workflow/tree
 Then prompt like following:
 
 ```text
-Use the human-in-loop-workflow skill to bootstrap this repository.
+$human-in-loop-workflow Bootstrap this repository.
 Only install or adapt workflow docs. Do not change product code.
 ```
 

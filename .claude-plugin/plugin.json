@@ -1,7 +1,7 @@
 {
   "name": "human-in-loop-workflow",
   "displayName": "Human-in-Loop Workflow",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A plain-text, human-in-the-loop workflow protocol for multi-agent collaboration on software projects.",
   "author": {
     "name": "Jia Wei"

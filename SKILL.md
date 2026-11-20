@@ -1,6 +1,6 @@
 ---
 name: human-in-loop-workflow
-description: Use when the user wants to bootstrap, install, or adapt a human-in-the-loop multi-agent workflow with AGENTS.md routing, phase specs, taskboards, implementation/review handoffs, and reviewer sign-off gates.
+description: Bootstrap, install, or adapt a human-in-the-loop multi-agent workflow with AGENTS.md routing, phase specs, taskboards, implementation/review handoffs, and reviewer sign-off gates. Use only when the user explicitly invokes human-in-loop-workflow by name; do not activate for ordinary coding, review, or documentation tasks.
 ---
 
 # Human-in-Loop Multi-Agent Workflow
